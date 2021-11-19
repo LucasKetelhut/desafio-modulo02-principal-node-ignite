@@ -1,0 +1,259 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+       "title": "SOLID Challenge API",
+       "description": "This is a documentation of the SOLID Challenge API. Module 02.",
+       "version": "1.0.0" 
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create user",
+                "description": "Create a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Lucas",
+                                    "email": "lucas@rocketseat.com.br"
+                                }
+                            } 
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": "2e44a0c2-a8f4-4ea3-a444-a83018959469",
+                                        "admin": false,
+                                        "created_at": "2021-11-19T01:33:02.894Z",
+                                        "updated_at": "2021-11-19T01:33:02.894Z",
+                                        "name": "Lucas",
+                                        "email": "lucas@rocketseat.com.br"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "This email has already been used",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "This email has already been used."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "summary": "List all users",
+                "description": "Only ADMIN can list all the users",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "user_id",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "id": "2e44a0c2-a8f4-4ea3-a444-a83018959469",
+                                            "admin": false,
+                                            "created_at": "2021-11-19T01:33:02.894Z",
+                                            "updated_at": "2021-11-19T01:33:02.894Z",
+                                            "name": "Daniel",
+                                            "email": "daniel@rocketseat.com.br"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User doesn't have permission or User doesn't exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "You need to be an administrator to list all users."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "List an user",
+                "description": "List a specific user",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "id": "2e44a0c2-a8f4-4ea3-a444-a83018959469",
+                                            "admin": false,
+                                            "created_at": "2021-11-19T01:33:02.894Z",
+                                            "updated_at": "2021-11-19T01:33:02.894Z",
+                                            "name": "Gisele",
+                                            "email": "gisele@rocketseat.com.br"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "User not found."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Turn into admin",
+                "description": "Turn this user into an admin",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "id": "2e44a0c2-a8f4-4ea3-a444-a83018959469",
+                                            "admin": true,
+                                            "created_at": "2021-11-19T01:33:02.894Z",
+                                            "updated_at": "2021-11-19T01:33:02.894Z",
+                                            "name": "Gisele",
+                                            "email": "gisele@rocketseat.com.br"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "User not found."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
