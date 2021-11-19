@@ -1,4 +1,4 @@
-# desafio-modulo02-principal-node-ignite
+# desafio-solid-node-ignite
 Desafio principal do Módulo 02 da trilha de Node.js no Ignite da Rocketseat.
 
 # 💻 Sobre o desafio
